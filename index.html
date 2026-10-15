@@ -307,11 +307,14 @@ function tick(){var d=Math.max(0,T-Date.now()),v=[Math.floor(d/864e5),Math.floor
   for(var i=0;i<4;i++)cb[i].textContent=v[i]}
 tick();setInterval(tick,1000);
 /* share */
-document.getElementById('sh').onclick=function(){
-  var d={title:'Wedding Invitation',text:'You are invited to the wedding of Mohd Sakib Shaikh & Shaikh Gulesaba - Nikkah 13 Dec 2026, Walima 14 Dec 2026',url:location.href};
-  if(navigator.share)navigator.share(d).catch(function(){});
-  else window.open('https://wa.me/?text='+encodeURIComponent(d.text+' '+d.url),'_blank');
-};
+var sh=document.getElementById('sh');
+if(sh){
+  sh.onclick=function(){
+    var d={title:'Wedding Invitation',text:'You are invited to the wedding of Mohd Sakib Shaikh & Shaikh Gulesaba - Nikkah 13 Dec 2026, Walima 14 Dec 2026',url:location.href};
+    if(navigator.share)navigator.share(d).catch(function(){});
+    else window.open('https://wa.me/?text='+encodeURIComponent(d.text+' '+d.url),'_blank');
+  };
+}
 /* scratch */
 var cv=document.getElementById('cv'),ctx=cv.getContext('2d',{willReadFrequently:true}),sp=document.getElementById('sp'),sx=sp.getContext('2d'),tk=document.getElementById('tk'),pg=document.getElementById('pg'),pt=document.getElementById('pt'),hand=document.getElementById('hand'),done=false,last=0,down=false,lp=null,S=[],sl=0;
 function dims(){var r=cv.parentNode.getBoundingClientRect(),d=window.devicePixelRatio||1;return[Math.round(r.width*d),Math.round(r.height*d),d]}
