@@ -293,11 +293,25 @@ cover.addEventListener('click',function(){
 /* fit hero text - only when the size really changed (no re-layout on mobile URL-bar scroll resizes) */
 var fk='';
 function fit(force){
-  var key=document.documentElement.clientWidth+'x'+document.getElementById('hero').clientHeight;
+  var hero=document.getElementById('hero');
+  if(!hero)return;
+  var key=document.documentElement.clientWidth+'x'+hero.clientHeight;
   if(!force&&key===fk)return;fk=key;
-  document.querySelectorAll('#hero .nm,#hero h1,.lt .nm,#hero .lab').forEach(function(e){
-  e.style.fontSize='';var s=parseFloat(getComputedStyle(e).fontSize),w=e.parentNode.clientWidth*(e.closest('#hero')?.92:.8);e.style.fontSize=s+'px';
-  while(e.scrollWidth>w&&s>12){s-=1;e.style.fontSize=s+'px'}})}
+
+  document.querySelectorAll('#hero .lab,#hero h1').forEach(function(el){
+    el.style.fontSize='';
+    var size=parseFloat(getComputedStyle(el).fontSize);
+    var box=(el.parentNode && el.parentNode.clientWidth) || hero.clientWidth || window.innerWidth;
+    while(el.scrollWidth > box * 0.9 && size > 12){
+      size -= 1;
+      el.style.fontSize = size + 'px';
+    }
+  });
+
+  document.querySelectorAll('#hero .nm,.lt .nm').forEach(function(el){
+    el.style.fontSize='';
+  });
+}
 fit(true);
 var rq=0;addEventListener('resize',function(){if(rq)return;rq=requestAnimationFrame(function(){rq=0;fit();bkSize();bkDraw(cur)})});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(function(){fit(true)});
